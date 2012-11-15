@@ -219,10 +219,14 @@ static void set_pci_vpd_instance(struct libbiosdevname_state *state)
 
 	/* Read VPD-R on Dell systems only */
 	if ((fd = open("/sys/devices/virtual/dmi/id/sys_vendor", O_RDONLY)) >= 0) {
-		if (read(fd, sys_vendor, 9) != 9)
+		if (read(fd, sys_vendor, 9) != 9) {
+                        close(fd);
 			return;
-		if (strncmp(sys_vendor, "Dell Inc.", 9)) 
+                }
+		if (strncmp(sys_vendor, "Dell Inc.", 9)) {
+                        close(fd);
 			return;
+                }
 	} else
 		return;
 
@@ -259,6 +263,8 @@ static void set_pci_vpd_instance(struct libbiosdevname_state *state)
 			dev->vpd_pf = NULL;
 		}
 	}
+
+        close(fd);
 }
 
 static int pci_find_capability(struct pci_dev *p, int cap)
@@ -698,7 +704,6 @@ int get_pci_devices(struct libbiosdevname_state *state)
 	struct pci_access *pacc;
 	struct pci_dev *p;
 	struct routing_table *table;
-	int rc=0;
 
 	table = pirq_alloc_read_table();
 	if (table)
@@ -706,7 +711,7 @@ int get_pci_devices(struct libbiosdevname_state *state)
 
 	pacc = pci_alloc();
 	if (!pacc)
-		return rc;
+		return 0;
 #if 0
 	pci_set_param(pacc, "dump.name", "lspci.txt");
 	pacc->method = PCI_ACCESS_DUMP;
@@ -727,7 +732,7 @@ int get_pci_devices(struct libbiosdevname_state *state)
 	set_embedded_index(state);
 	set_pci_slot_index(state);
 
-	return rc;
+	return 0;
 }
 
 int unparse_pci_name(char *buf, int size, const struct pci_dev *pdev)
