@@ -332,19 +332,6 @@ static int read_pci_sysfs_path(char *buf, size_t bufsize, const struct pci_dev *
 	return 0;
 }
 
-static int read_pci_sysfs_physfn(char *buf, size_t bufsize, const struct pci_dev *pdev)
-{
-	char path[PATH_MAX];
-	char pci_name[16];
-	ssize_t size;
-	unparse_pci_name(pci_name, sizeof(pci_name), pdev);
-	snprintf(path, sizeof(path), "/sys/bus/pci/devices/%s/physfn", pci_name);
-	size = readlink(path, buf, bufsize);
-	if (size == -1)
-		return 1;
-	return 0;
-}
-
 static int parse_pci_name(const char *s, int *domain, int *bus, int *dev, int *func)
 {
 	int err;
@@ -389,7 +376,6 @@ find_parent(struct libbiosdevname_state *state, struct pci_device *dev)
 	int rc;
 	char path[PATH_MAX];
 	char *c;
-	struct pci_device *physfn;
 	struct pci_dev *pdev;
 	memset(path, 0, sizeof(path));
 
