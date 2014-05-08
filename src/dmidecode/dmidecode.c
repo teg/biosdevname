@@ -112,7 +112,7 @@ static int matchpci(struct pci_device *pdev, int domain, int bus, int device, in
 	return 1;
 }
 
-int smbios_setslot(const struct libbiosdevname_state *state, 
+void smbios_setslot(const struct libbiosdevname_state *state,
 		   int domain, int bus, int device, int func,
 		   int type, int slot, int index, const char *label)
 {
@@ -158,7 +158,7 @@ int smbios_setslot(const struct libbiosdevname_state *state,
 			smbios_setslot(state, domain, pdev->sbus, -1, -1, type, slot, index, label);
 		}
 	}
-	return 0;
+	return;
 }
 
 static void dmi_decode(struct dmi_header *h, u16 ver, const struct libbiosdevname_state *state)
