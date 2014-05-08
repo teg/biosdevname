@@ -23,6 +23,7 @@
 #include "pci.h"
 #include "eths.h"
 #include "state.h"
+#include "sysfs.h"
 
 /* Display an Ethernet address in readable format. */
 char *pr_ether(char *buf, const int size, const unsigned char *s)
