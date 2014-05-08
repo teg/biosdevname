@@ -34,7 +34,7 @@ char *pr_ether(char *buf, const int size, const unsigned char *s)
 	return (buf);
 }
 
-static int eths_get_devid(const char *devname, int *devid)
+static void eths_get_devid(const char *devname, int *devid)
 {
 	char path[PATH_MAX];
 	char *devidstr = NULL;
@@ -45,7 +45,7 @@ static int eths_get_devid(const char *devname, int *devid)
 		sscanf(devidstr, "%i", devid);
 		free(devidstr);
 	}
-	return NULL;
+	return;
 }
 
 static int eths_get_ifindex(const char *devname, int *ifindex)
