@@ -116,8 +116,7 @@ void smbios_setslot(const struct libbiosdevname_state *state,
 		   int domain, int bus, int device, int func,
 		   int type, int slot, int index, const char *label)
 {
-	struct pci_device *pdev, *n;
-	int i;
+	struct pci_device *pdev;
 
 	dprintf("setslot: %.4x:%.2x:%.2x.%x = type:%x slot(%2d %2d) %s\n",
 		domain, bus, device, func, type, slot, index, label);
@@ -164,7 +163,7 @@ void smbios_setslot(const struct libbiosdevname_state *state,
 static void dmi_decode(struct dmi_header *h, u16 ver, const struct libbiosdevname_state *state)
 {
 	u8 *data=h->data;
-	int domain, bus, device, function, i;
+	int domain, bus, device, function;
 	switch(h->type)
 	{
 	case 9: /* 3.3.10 System Slots */
