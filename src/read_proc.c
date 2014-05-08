@@ -92,8 +92,8 @@ int get_interfaces(struct libbiosdevname_state *state)
 
 	err = 0;
 	while (getline(&line, &linelen, fh) != -1) {
-		char *s, *name;
-		s = get_name(&name, line);
+		char *name;
+		get_name(&name, line);
 		add_interface(state, name);
 	}
 	if (ferror(fh))
