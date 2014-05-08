@@ -612,7 +612,7 @@ static void set_sriov(struct libbiosdevname_state *state, struct pci_device *pf,
 	struct pci_device *vf;
 	char pci_name[32];
 	char path[PATH_MAX], cpath[PATH_MAX];
-	int vf_index;
+	unsigned vf_index;
 
 	if (sscanf(virtpath, "virtfn%u", &vf_index) != 1)
 		return;
